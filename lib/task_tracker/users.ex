@@ -50,6 +50,20 @@ defmodule TaskTracker.Users do
     users
   end
 
+  def get_manager(id) do
+    user = Repo.get(User, id)
+    if user.manager_id do
+      Repo.get(User, user.manager_id)
+    end
+  end
+
+  def get_underlings(id) do
+    user = Repo.get(User, id)
+    users = Repo.all(User)
+    underlings = Enum.filter(users, fn u -> u.manager_id == user.id end)
+    underlings
+  end
+
 
   @doc """
   Creates a user.

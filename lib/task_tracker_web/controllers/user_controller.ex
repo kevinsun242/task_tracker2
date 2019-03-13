@@ -15,6 +15,8 @@ defmodule TaskTrackerWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
+    users = Users.list_users()
+    managers = Enum.filter(users, fn user -> user.manager end)
     case Users.create_user(user_params) do
       {:ok, user} ->
         conn
@@ -23,19 +25,23 @@ defmodule TaskTrackerWeb.UserController do
         |> redirect(to: Routes.task_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, managers: managers)
     end
   end
 
   def show(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
-    render(conn, "show.html", user: user)
+    user = Users.get_user(id)
+    user_manager = Users.get_manager(id)
+    underlings = Users.get_underlings(id)
+    render(conn, "show.html", user: user, user_manager: user_manager, underlings: underlings)
   end
 
   def edit(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
+    user = Users.get_user(id)
+    users = Users.list_users()
+    managers = Enum.filter(users, fn user -> user.manager end)
     changeset = Users.change_user(user)
-    render(conn, "edit.html", user: user, changeset: changeset)
+    render(conn, "edit.html", user: user, changeset: changeset, managers: managers)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do

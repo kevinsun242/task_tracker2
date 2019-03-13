@@ -11,6 +11,18 @@
     <%= error_tag f, :email %>
   </div>
 
+  <div class="form-group">
+    <%= label f, :manager %>
+    <%= checkbox f, :manager, class: "form-control" %>
+    <%= error_tag f, :manager %>
+  </div>
+
+  <div class="form-group">
+    This user's manager:
+    <%= select f, :manager_id, Enum.map(@managers, fn manager -> {manager.email, manager.id} end) ++ [nil]%>
+    <%= error_tag f, :manager_id %>
+  </div>
+
   <div>
     <%= submit "Save", class: "btn btn-primary" %>
   </div>

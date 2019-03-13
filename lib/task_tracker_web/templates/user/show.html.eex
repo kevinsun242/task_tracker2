@@ -7,7 +7,47 @@
     <%= @user.email %>
   </li>
 
+  <li>
+  	<strong>Manager:</strong>
+  	<%= if @user.manager do %>
+  		<span> Yes</span>
+  	<% else %>
+  		<span> No</span>
+  	<% end %>
+  </li>
+
+  
+	<li>
+  	<strong>User's Manager:</strong>
+  		<%= if @user_manager do %>
+        <%=@user_manager.email %>
+      <% else %>
+        <span> None </span>
+      <% end %>
+  </li>
+
+
+
 </ul>
+
+<%= if @user.manager do %>
+	<h2>Underlings:</h2>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Email</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<%= for underling <- @underlings do %>
+				<tr>
+					<td><%=underling.email %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>
 
 <span><%= link "Edit", class: "btn btn-primary", to: Routes.user_path(@conn, :edit, @user) %></span>
 <span><%= link "Back", class: "btn btn-secondary", to: Routes.user_path(@conn, :index) %></span>
