@@ -11,7 +11,9 @@ defmodule TaskTrackerWeb.UserController do
 
   def new(conn, _params) do
     changeset = Users.change_user(%User{})
-    render(conn, "new.html", changeset: changeset)
+    users = Users.list_users()
+    managers = Enum.filter(users, fn user -> user.manager end)
+    render(conn, "new.html", changeset: changeset, managers: managers)
   end
 
   def create(conn, %{"user" => user_params}) do

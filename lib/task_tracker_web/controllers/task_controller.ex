@@ -12,13 +12,16 @@ defmodule TaskTrackerWeb.TaskController do
   end
 
   def new(conn, _params) do
+    current_user = get_session(conn, :user_id)
     changeset = Tasks.change_task(%Task{})
-    users = Users.get_users()
-    render(conn, "new.html", changeset: changeset, users: users)
+    underlings = Users.get_underlings(current_user)
+    render(conn, "new.html", changeset: changeset, underlings: underlings)
   end
 
   def create(conn, %{"task" => task_params}) do
+    current_user = get_session(conn, :user_id)
     users = Users.get_users()
+    underlings = Users.get_underlings(current_user)
     case Tasks.create_task(task_params) do
       {:ok, task} ->
         conn
@@ -26,7 +29,7 @@ defmodule TaskTrackerWeb.TaskController do
         |> redirect(to: Routes.task_path(conn, :show, task))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, users: users)
+        render(conn, "new.html", changeset: changeset, underlings: underlings)
     end
   end
 
@@ -37,15 +40,19 @@ defmodule TaskTrackerWeb.TaskController do
   end
 
   def edit(conn, %{"id" => id}) do
+    current_user = get_session(conn, :user_id)
     task = Tasks.get_task!(id)
     changeset = Tasks.change_task(task)
     users = Users.get_users()
-    render(conn, "edit.html", task: task, changeset: changeset, users: users)
+    underlings = Users.get_underlings(current_user)
+    render(conn, "edit.html", task: task, changeset: changeset, underlings: underlings)
   end
 
   def update(conn, %{"id" => id, "task" => task_params}) do
+    current_user = get_session(conn, :user_id)
     task = Tasks.get_task!(id)
     users = Users.get_users()
+    underlings = Users.get_underlings(current_user)
 
     case Tasks.update_task(task, task_params) do
       {:ok, task} ->
@@ -54,7 +61,7 @@ defmodule TaskTrackerWeb.TaskController do
         |> redirect(to: Routes.task_path(conn, :show, task))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", task: task, changeset: changeset, users: users)
+        render(conn, "edit.html", task: task, changeset: changeset, users: users, underlings: underlings)
     end
   end
 

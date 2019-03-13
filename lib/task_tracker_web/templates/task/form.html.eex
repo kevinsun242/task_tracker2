@@ -29,11 +29,13 @@
     <%= error_tag f, :completed %>
   </div>
 
+  <%= if @current_user.manager do %>
   <div class="form-group">
-    <%= label f, :user_id %>
-    <%= select f, :user_id, Enum.map(@users, fn user -> {user.email, user.id} end) ++ [nil]%>
+    Assignee
+    <%= select f, :user_id, Enum.map(@underlings, fn user -> {user.email, user.id} end)%>
     <%= error_tag f, :user_id %>
   </div>
+  <% end %>
 
   <div>
     <%= submit "Save", class: "btn btn-primary" %>
