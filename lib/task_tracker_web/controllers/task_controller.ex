@@ -8,7 +8,15 @@ defmodule TaskTrackerWeb.TaskController do
   def index(conn, _params) do
     tasks = Tasks.list_tasks()
     users = Users.get_users()
-    render(conn, "index.html", tasks: tasks, users: users)
+    current_user = get_session(conn, :user_id)
+
+    if current_user do
+      underlings = Users.get_underlings(current_user)
+      render(conn, "index.html", tasks: tasks, users: users, underlings: underlings)
+    else
+      render(conn, "index.html", tasks: tasks, users: users)
+    end
+    
   end
 
   def new(conn, _params) do
