@@ -8,7 +8,6 @@
         <tr>
           <th>Title</th>
           <th>Description</th>
-          <th>Time Spent</th>
           <th>Completed</th>
           <th>Assignee</th>
 
@@ -22,7 +21,6 @@
               <tr>
                 <td><%= task.title %></td>
                 <td><%= task.description %></td>
-                <td><%= task.time %></td>
                 <td><%= task.completed %></td>
                 <td><%= TaskTracker.Tasks.get_assignee(task.user_id).email %></td>
 
@@ -47,7 +45,6 @@
     <tr>
       <th>Title</th>
       <th>Description</th>
-      <th>Time Spent</th>
       <th>Completed</th>
       <th>Assignee</th>
 
@@ -59,7 +56,6 @@
     <tr>
       <td><%= task.title %></td>
       <td><%= task.description %></td>
-      <td><%= task.time %></td>
       <td><%= task.completed %></td>
       <td><%= TaskTracker.Tasks.get_assignee(task.user_id).email %></td>
 

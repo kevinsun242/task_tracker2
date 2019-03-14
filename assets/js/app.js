@@ -18,3 +18,19 @@ import "bootstrap";
 //
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
+
+$(function() {
+  $('.delete-button').click((ev) => {
+    let task_id = $(ev.target).data('task-id');
+
+    $.ajax(`${timeblock_path}/${task_id}`, {
+      type: "DELETE",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: "",
+      success: (resp) => {
+        location.reload()
+      },
+    });
+  });
+});

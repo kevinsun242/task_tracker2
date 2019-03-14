@@ -13,11 +13,6 @@
   </li>
 
   <li>
-    <strong>Time:</strong>
-    <%= @task.time %>
-  </li>
-
-  <li>
     <strong>Completed:</strong>
     <%= @task.completed %>
   </li>
@@ -27,7 +22,48 @@
     <%= @assignee.email %>
   </li>
 
+  <li>
+    <table class="table table-striped">
+      <strong>Time Spent</strong>
+      <thead>
+        <tr>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="timeblocks">
+        <%= for timeblock <- @timeblocks do %>
+        <tr>
+          <td><%= timeblock.start %></td>
+          <td><%= timeblock.end %></td>
+          <td>
+            <button data-task-id="<%= timeblock.id %>" class="btn btn-danger delete-button">Delete Timeblock</button>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </li>
+
+  <%= if @task.user_id == @current_user.id and  not @task.completed do %>
+    <strong>Start Timeblock </strong>
+    <p id="start"></p>
+    <p id="end"></p>
+    <button id="start-button"
+      data-task-id="<%= @task.id %>"
+      class="btn btn-info">Start Task</button>
+    <button id="end-button"
+      data-task-id="<%= @task.id %>"
+      class="btn btn-secondary" disabled>End Task</button>
+  <% end %>
+
 </ul>
 
 <span><%= link "Edit", class: "btn btn-primary", to: Routes.task_path(@conn, :edit, @task) %></span>
 <span><%= link "Back", class: "btn btn-secondary", to: Routes.task_path(@conn, :index) %></span>
+
+
+<script>
+ window.timeblock_path = "<%= Routes.timeblock_path(@conn, :create) %>";
+</script>
