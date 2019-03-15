@@ -1,20 +1,7 @@
 # TaskTracker
 
-To start your Phoenix server:
+## Some design decisions / concerns with the code currently:
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+* There is a bug where if you try to create a task without an assignee, it has trouble loading the tasks pages afterward. So make sure there is an assignee selected. 
+* Under /tasks, I decided to display the underlings' tasks first, and then a list of all tasks for manager users. For underlings, currently it displays the regular tasks list without the "underlings tasks" section. 
+* The buttons to modify timeblocks are on the tasks -> show page, when opening a single task to view it. 
