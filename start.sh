@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export MIX_ENV=prod
-export PORT=4794
+export PORT=4795
 
 echo "Stopping old copy of app, if any..."
 
@@ -13,7 +13,7 @@ echo "Starting app..."
 #_build/prod/rel/memory/bin/memory start
 
 # Foreground for testing and for systemd
-_build/prod/rel/task_tracker/bin/task_tracker foreground
+_build/prod/rel/task_tracker/bin/task_tracker start
 
 # TODO: Add a cron rule or systemd service file
 #       to start your app on system boot.

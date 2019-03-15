@@ -1,0 +1,16 @@
+[Unit]
+Description=Task Tracker App V2 - AJAX
+
+[Service]
+Type=simple
+User=hw07
+Group=hw07
+Restart=on-failure
+Environment=MIX_ENV=prod "PORT=4795"
+Environment=LANG=en_US.UTF-8
+
+WorkingDirectory=/home/hw07/task_tracker2
+ExecStart=/home/hw07/task_tracker2/start.sh
+
+[Install]
+WantedBy=multi-user.target
